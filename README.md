@@ -1,13 +1,14 @@
 # nRF24L01-sniffer
 
 I'm using several nRF24L01+ RF modules around my house. This is a debugging tool to see what is beeing sent over the air.
-Basically this is a simplified rewrite of http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html using only a raspberry pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
+
+Basically this is a simplified rewrite of [this](http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html) project, using only a Raspberry Pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
 
 # Overview
 
 nRF Promiscuous mode: the internal packet, CRC and and retransmit functionality of the module is switched off. Any burst of data with the right preamble and the right address is received. Note that only the upper 3 out of 5 address bytes need to be known in advance. Always the maximum length of 32 bytes is received, regardless of the real packet length. Wireshark will implement the low level functions of the `Shock Burst` protocol, like reconstructing payload, checking CRC, marking invalid packets, etc.
 
-Details here: http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html
+More details here: http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html
 
 The Raspi runs a small C program, communicating with the nRF over SPI. If a packet was received, the 32 byte blob is read and forwarded to _stdout_ and _stderr_. The former is in binary [libpcap](https://wiki.wireshark.org/Development/LibpcapFileFormat) format (understood by wireshark), the latter is a human readable hex dump.
 
@@ -38,7 +39,7 @@ This should initialize the nRF module, show its register values and start captur
     
 # Live capture
 
-# Local
+## Local
 
 Run everything on the Raspberry Pi
 
