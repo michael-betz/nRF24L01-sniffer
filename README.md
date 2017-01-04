@@ -29,31 +29,31 @@ You'll need a Raspberry Pi (any model) and a nRF24L01+ RF module. Hook it up as 
 ## Compile on the Raspberry Pi
     
     $ make
-    $ sudo ./myNRFsniffer | /dev/null
+    $ sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 > /dev/null
     
 This should initialize the nRF module, show its register values and start capturing to console
     
 ## Install wireshark lua script
 
-    $ cp ./xxx.lua ~/.wireshark/plugins
+    $ cp ./nRF24_dissector.lua ~/.wireshark/plugins/
     
 # Live capture
 
 ## Local
 
-Run everything on the Raspberry Pi
+Run everything locally on the Raspberry Pi
 
-    $  > wireshark
+    $ sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 | wireshark -k -i -
 
 ## Remote
 
 For a remote capture session, first startup wireshark on a PC like this
 
-    $ nc ..
+    $ nc -l -p 5000 | wireshark -k -i -
     
 Then start capturing on the Raspberry Pi like this
 
-    $ nc .. 192.168.1.1 5000
+    $ sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 | nc -v 192.168.1.1 5000
     
 Where `192.168.1.1` is the IP address of your PC.
 
