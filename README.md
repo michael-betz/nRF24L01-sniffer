@@ -2,7 +2,7 @@
 
 This sniffer allows to passively sniff the communication of nRF24 - like RF modules.
 
-The project was inspired by and is a complete rewrite of [this](http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html) project, using only a Raspberry Pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
+The project was inspired by and is a complete rewrite of [Yveaux's nRF24L01+ sniffer](http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html), using only a Raspberry Pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
 
 # Overview
 
