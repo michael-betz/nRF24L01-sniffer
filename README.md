@@ -87,6 +87,6 @@ Where `192.168.1.1` is the IP address of your PC.
 
 ## Wireshark output
 
-![Example Wireshark capture](https://octodex.github.com/images/yaktocat.png)
+![Example Wireshark capture](https://github.com/yetifrisstlama/nRF24L01-sniffer/raw/master/nrf_ws.png)
 
 
