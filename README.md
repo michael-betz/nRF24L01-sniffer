@@ -6,7 +6,7 @@ Basically this is a simplified rewrite of [this](http://yveaux.blogspot.com/2014
 
 # Overview
 
-nRF Promiscuous mode: the internal packet, CRC and and retransmit functionality of the module is switched off. Any burst of data with the right preamble and the right address is received. Note that only the upper 3 out of 5 address bytes need to be known in advance. Always the maximum length of 32 bytes is received, regardless of the real packet length. Wireshark will implement the low level functions of the `Shock Burst` protocol, like reconstructing payload, checking CRC, marking invalid packets, etc.
+nRF Promiscuous mode: the internal packet, CRC and and retransmit functionality of the module is switched off. Any burst of data with the right preamble and the right address is received. Note that only the upper 2 out of 5 address bytes need to be known in advance. Always the maximum length of 32 bytes is received, regardless of the real packet length. Wireshark will implement the low level functions of the `Shock Burst` protocol, like reconstructing payload, checking CRC, marking invalid packets, etc.
 
 More details here: http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html
 
