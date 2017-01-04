@@ -42,9 +42,9 @@ __Commandline arguments__
 
  * __nRF_channel__  the RF channel to spy on ( 0 - 127 )
  * __nRF_mbps__ run with 1 or 2 mbps bit rate ( 1 / 2 )
- * __adr_x__ the most significant address byte is adr_4 ( 0x00 - 0xFF ). Note you must specify at least adr_4 and adr_3, the other ones are optional. You will only capture data with packets starting with that particular address. 
+ * __adr_x__ the most significant address byte is __adr_4__ ( 0x00 - 0xFF ). Note you must specify at least __adr_4__ and __adr_3__, the other ones are optional. You will only capture data with packets starting with that particular address. 
  
- Note that checksum calculation only works if the __adr_x__ values are also configured in the wireshark dissector under
+Note that checksum calculation only works if the __adr_x__ values are also configured in the wireshark dissector under
  
      Edit --> Preferences --> Protocols --> NRF24 --> Upper Address Byte
 
