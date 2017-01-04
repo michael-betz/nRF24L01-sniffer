@@ -1,20 +1,18 @@
 # nRF24L01-sniffer
 
-I'm using several nRF24L01+ RF modules around my house. This is a debugging tool to see what is beeing sent over the air.
+This sniffer allows to passively sniff the communication of nRF24 - like RF modules.
 
-Basically this is a simplified rewrite of [this](http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html) project, using only a Raspberry Pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
+The project was inspired by and is a complete rewrite of [this](http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html) project, using only a Raspberry Pi and a nRF24L01+ module. As I couldn't get Yveaux's wireshark dissector to compile under linux, I implemented it as a platform independent LUA script.
 
 # Overview
 
-nRF Promiscuous mode: the internal packet, CRC and and retransmit functionality of the module is switched off. Any burst of data with the right preamble and the right address is received. Note that only the upper 2 out of 5 address bytes need to be known in advance. Always the maximum length of 32 bytes is received, regardless of the real packet length. Wireshark will implement the low level functions of the `Shock Burst` protocol, like reconstructing payload, checking CRC, marking invalid packets, etc.
-
-More details here: http://yveaux.blogspot.com/2014/07/nrf24l01-sniffer-part-1.html
+nRF Promiscuous mode: the internal packet, CRC and and retransmit functionality of the module is switched off. Any burst of data with the right preamble and the right address will be received by the hardware. Note that only the upper 2 out of 5 address bytes need to be known in advance. Always the maximum length of 32 bytes is received, regardless of the real packet length. The data is fed to wireshark, which will implement the low level functions of the `Shock Burst` protocol, like reconstructing payload, checking CRC, marking invalid packets, etc.
 
 The Raspi runs a small C program, communicating with the nRF over SPI. If a packet was received, the 32 byte blob is read and forwarded to _stdout_ and _stderr_. The former is in binary [libpcap](https://wiki.wireshark.org/Development/LibpcapFileFormat) format (understood by wireshark), the latter is a human readable hex dump.
 
 The netcat tool is used to forward _stdout_ to another (linux) PC, running Wireshark. The data is piped into wireshark, which runs a custom lua script to dissect the nRF packets and check their CRC.
 
-Alternatively wireshark can be run locally on the Raspberry Pi -- which is a bit slower and less convenient if you're running `headless`.
+Alternatively wireshark can be run locally on the Raspberry Pi -- which will be slower.
 
 # Hardware
 
@@ -29,9 +27,6 @@ You'll need a Raspberry Pi (any model) and a nRF24L01+ RF module. Hook it up as 
 ## Compile on the Raspberry Pi
     
     $ make
-    $ sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 > /dev/null
-    
-This should initialize the nRF module, show its register values and start capturing to console
     
 ## Install wireshark lua script
 
@@ -39,13 +34,27 @@ This should initialize the nRF module, show its register values and start captur
     
 # Live capture
 
-Note that checksum calculation only works if the upper bytes of the address are setup in wireshark manually:
-
-  Edit --> Preferences --> Protocols --> NRF24 --> Upper Address Byte
-
 ## Local
 
-Run everything locally on the Raspberry Pi
+__Commandline arguments__
+
+    ./nRFsniffer <nRF_channel> <nRF_mbps> <adr_4> <adr_3> [ <adr_2> <adr_1> <adr_0> ]
+
+ * __nRF_channel__  the RF channel to spy on ( 0 - 127 )
+ * __nRF_mbps__ run with 1 or 2 mbps bit rate ( 1 / 2 )
+ * __adr_x__ the most significant address byte is adr_4 ( 0x00 - 0xFF ). Note you must specify at least adr_4 and adr_3, the other ones are optional. You will only capture data with packets starting with that particular address. 
+ 
+ Note that checksum calculation only works if the __adr_x__ values are also configured in the wireshark dissector under
+ 
+     Edit --> Preferences --> Protocols --> NRF24 --> Upper Address Byte
+
+__Capture to console__
+
+    sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 > /dev/null
+
+This should initialize the nRF module, show its register values and start capturing to console
+
+__Run Wireshark locally__
 
     $ sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 | wireshark -k -i -
 
