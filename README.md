@@ -39,6 +39,10 @@ This should initialize the nRF module, show its register values and start captur
     
 # Live capture
 
+Note that checksum calculation only works if the upper bytes of the address are setup in wireshark manually:
+
+  Edit --> Preferences --> Protocols --> NRF24 --> Upper Address Byte
+
 ## Local
 
 Run everything locally on the Raspberry Pi
@@ -57,5 +61,32 @@ Then start capturing on the Raspberry Pi like this
     
 Where `192.168.1.1` is the IP address of your PC.
 
+# Example session
+
+## Cmndline output
+
+    ----------------------
+     nRF24 RF sniffer
+    ----------------------
+    Arguments > ./nRFsniffer <nRF_channel (0-127)> <nRF_mbps (1/2)> <adr_4> <adr_3> [ <adr_2> <adr_1> <adr_0> ] 
+      Example > sudo ./nRFsniffer 64 2 0xE7 0xE7 0xE7 > /dev/null 
+    Returns human readable stuff on stderr, pcap binary data on stdout.
+
+    !!! Listening to RF Ch. 64 with 2 Mbps for anyhing starting with Adr. 0xE7E7E7 [3 bytes] !!!
+
+    All nRF24 registers:
+    0x00:  73 00 01 01 00 40 0f 2e 
+    0x08:  0f 00 e7 e1 e2 e3 e4 e5 
+    0x10:  e2 20 00 00 00 00 00 11 
+    0x18:  00 00 00 00 00 00 
+
+    (1483525210) [dd 57 af 2f 7d ab 59 7b d6 ff 5b 5f fb a6 ed b7 aa b5 d7 55 6d f5 6a e6 49 f5 d3 4a dd b6 da ea]
+    (1483525211) [e7 e1 33 02 00 30 87 54 15 23 aa 40 00 2d 74 5d 77 37 76 ea b7 9b af 6f ff 55 9d b6 9b b6 3a a8]
+    (1483525211) [e7 e1 33 02 00 30 87 54 15 23 aa 40 00 2d 74 5d 77 25 6a e6 9b 88 8a db 7a aa 94 a6 12 92 a2 ad]
+
+
+## Wireshark output
+
+![Example Wireshark capture](https://octodex.github.com/images/yaktocat.png)
 
 
