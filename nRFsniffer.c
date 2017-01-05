@@ -78,8 +78,7 @@ int main( int argc, char **argv ){
     fprintf(stderr, "----------------------\n");
     fprintf(stderr, " nRF24 RF sniffer\n");
     fprintf(stderr, "----------------------\n");
-    fprintf(stderr, "Arguments > %s <nRF_channel (0-127)> <nRF_mbps (1/2)> <adr_4> <adr_3> [ <adr_2> <adr_1> <adr_0> ] \n", argv[0] );
-    fprintf(stderr, "  Example > sudo %s 64 2 0xE7 0xE7 0xE7 > /dev/null \n", argv[0] );
+    fprintf(stderr, "%s <nRF_channel (0-127)> <nRF_mbps (1/2)> <adr_4> <adr_3> [ <adr_2> <adr_1> <adr_0> ] \n", argv[0] );
     fprintf(stderr, "Returns human readable stuff on stderr, pcap binary data on stdout.\n\n" );
     
     //--------------------------------------------------------------------------
